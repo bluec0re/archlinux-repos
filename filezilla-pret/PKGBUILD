@@ -1,0 +1,40 @@
+# $Id: PKGBUILD 121380 2014-10-25 09:22:31Z bluewind $
+# Contributor: Alexander Fehr <pizzapunk gmail com>
+# Maintainer: Daniel J Griffiths <ghost1227@archlinux.us>
+
+pkgname=filezilla-pret
+_pkgname=filezilla
+pkgver=3.10.3
+pkgrel=1
+pkgdesc="Fast and reliable FTP, FTPS and SFTP client"
+arch=('i686' 'x86_64')
+url="http://filezilla-project.org/"
+license=('GPL')
+depends=('dbus' 'xdg-utils' 'wxgtk' 'libidn' 'hicolor-icon-theme' 'sqlite' 'gnutls')
+install=filezilla.install
+source=("http://downloads.sourceforge.net/project/filezilla/FileZilla_Client/${pkgver}/FileZilla_${pkgver}_src.tar.bz2" "PRET-support.patch")
+conflicts=('filezilla')
+provides=('filezilla')
+conflicts=('filezilla')
+
+
+build() {
+  cd "${_pkgname}-${pkgver}"
+  patch -i ../PRET-support.patch src/engine/ftpcontrolsocket.cpp
+  ./configure \
+    --prefix=/usr \
+    --disable-manualupdatecheck \
+    --disable-autoupdatecheck \
+    --disable-static \
+    --with-tinyxml=builtin
+
+  make
+}
+
+package() {
+  cd "${_pkgname}-${pkgver}"
+
+  make DESTDIR="${pkgdir}" install
+}
+md5sums=('0c7511a964cbd2afa95e0c42c7258dee'
+         '7c07d8d88df47b967195d12b7f9a2b50')

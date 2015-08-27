@@ -1,0 +1,22 @@
+# Maintainer: Your Name <youremail@domain.com>
+pkgname=python2-pfp
+pkgver=0.1.14
+pkgrel=1
+epoch=
+pkgdesc=""
+arch=('any')
+url=""
+license=('MIT')
+depends=('python2-six' 'python2-intervaltree' 'python2-010parser>=0.1.5')
+source=("https://github.com/d0c-s4vage/pfp/archive/v$pkgver.tar.gz")
+md5sums=('a8e83d72647def9a700f2ce4cae56f7a')
+
+build() {
+	cd "pfp-$pkgver"
+        python2 setup.py build
+}
+
+package() {
+	cd "pfp-$pkgver"
+        python2 setup.py install --root="$pkgdir" --optimize=1
+}

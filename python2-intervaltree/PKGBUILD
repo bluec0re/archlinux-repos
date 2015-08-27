@@ -1,0 +1,22 @@
+# Maintainer: Your Name <youremail@domain.com>
+pkgname=python2-intervaltree
+pkgver=2.1.0
+pkgrel=1
+epoch=
+pkgdesc=""
+arch=('any')
+url="https://github.com/chaimleib/intervaltree"
+license=('MIT')
+depends=('python2-sortedcontainers')
+source=("https://github.com/chaimleib/intervaltree/archive/$pkgver.tar.gz")
+md5sums=('ad4020de1066461e46eb777a15ce4bd4')
+
+build() {
+	cd "intervaltree-$pkgver"
+        python2 setup.py build
+}
+
+package() {
+	cd "intervaltree-$pkgver"
+        python2 setup.py install --root="$pkgdir" --optimize=1
+}

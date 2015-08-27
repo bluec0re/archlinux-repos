@@ -1,0 +1,22 @@
+# Maintainer: Your Name <youremail@domain.com>
+pkgname=python2-010parser
+pkgver=0.1.5
+pkgrel=1
+epoch=
+pkgdesc=""
+arch=('any')
+url=""
+license=('MIT')
+depends=('python2')
+source=("https://github.com/d0c-s4vage/py010parser/archive/v$pkgver.tar.gz")
+md5sums=('1570f09233a64acfdb87c92bea4d846b')
+
+build() {
+	cd "py010parser-$pkgver"
+        python2 setup.py build
+}
+
+package() {
+	cd "py010parser-$pkgver"
+        python2 setup.py install --root="$pkgdir" --optimize=1
+}

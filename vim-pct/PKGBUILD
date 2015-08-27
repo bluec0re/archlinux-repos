@@ -1,0 +1,40 @@
+# Maintainer: Timo Schmid <arch@timoschmid.de>
+pkgname=vim-pct-git # '-bzr', '-git', '-hg' or '-svn'
+pkgver=r9.1ea3892
+pkgrel=1
+pkgdesc=""
+arch=('any')
+url="https://github.com/d0c-s4vage/pct-vim"
+license=('MIT')
+groups=()
+depends=('gvim' 'python2-peewee' )
+makedepends=('git') # 'bzr', 'git', 'mercurial' or 'subversion'
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+replaces=()
+backup=()
+options=()
+install=
+source=('vim-pct::git+https://github.com/d0c-s4vage/pct-vim#commit=1ea3892a79fc3462a4a9343bc98dfcfcc1a36ce2')
+noextract=()
+md5sums=('SKIP')
+
+# Please refer to the 'USING VCS SOURCES' section of the PKGBUILD man page for
+# a description of each element in the source array.
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+
+# Git, tags available
+#	printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+
+# Git, no tags available
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+
+        mkdir -p $pkgdir/usr/share/vim/vimfiles/plugin
+        install -m644 -t "$pkgdir/usr/share/vim/vimfiles/plugin" pct.vim
+}

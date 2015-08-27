@@ -1,0 +1,41 @@
+# Maintainer: Timo Schmid <arch@timoschmid.de>
+pkgname=vim-pfp-git # '-bzr', '-git', '-hg' or '-svn'
+pkgver=r13.01195ec
+pkgrel=1
+pkgdesc=""
+arch=('any')
+url="https://github.com/d0c-s4vage/pfp-vim"
+license=('MIT')
+groups=()
+depends=('gvim' 'python2-pfp' )
+makedepends=('git') # 'bzr', 'git', 'mercurial' or 'subversion'
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+replaces=()
+backup=()
+options=()
+install=
+source=('vim-pfp::git+https://github.com/d0c-s4vage/pfp-vim')
+noextract=()
+md5sums=('SKIP')
+
+# Please refer to the 'USING VCS SOURCES' section of the PKGBUILD man page for
+# a description of each element in the source array.
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+
+# Git, tags available
+#	printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+
+# Git, no tags available
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+
+        mkdir -p $pkgdir/usr/share/vim/vimfiles/{syntax,plugin}
+        install -m644 -t "$pkgdir/usr/share/vim/vimfiles/syntax" syntax/*
+        install -m644 -t "$pkgdir/usr/share/vim/vimfiles/plugin" plugin/*
+}
