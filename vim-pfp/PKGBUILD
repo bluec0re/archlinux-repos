@@ -15,9 +15,10 @@ replaces=()
 backup=()
 options=()
 install=
-source=('vim-pfp::git+https://github.com/d0c-s4vage/pfp-vim')
+source=('vim-pfp::git+https://github.com/d0c-s4vage/pfp-vim' 'templates.tar.xz')
 noextract=()
-md5sums=('SKIP')
+md5sums=('SKIP'
+         '39e9367a28f0a0a8df9040e7e55e0cf9')
 
 # Please refer to the 'USING VCS SOURCES' section of the PKGBUILD man page for
 # a description of each element in the source array.
@@ -38,4 +39,8 @@ package() {
         mkdir -p $pkgdir/usr/share/vim/vimfiles/{syntax,plugin}
         install -m644 -t "$pkgdir/usr/share/vim/vimfiles/syntax" syntax/*
         install -m644 -t "$pkgdir/usr/share/vim/vimfiles/plugin" plugin/*
+
+        cd ..
+        mkdir -p $pkgdir/usr/share/pfp
+        install -m644 -t "$pkgdir/usr/share/pfp" templates/*
 }
